@@ -27,15 +27,18 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow: hidden;
+    /* --- DIUBAH --- Menghapus overflow: hidden agar scrollbar bisa muncul jika perlu */
+    padding: 20px; 
 }
 
+/* --- INI PERBAIKAN UTAMANYA --- */
 .player-container {
     display: flex;
-    width: 95vw;
-    max-width: 1200px;
-    height: 85vh;
-    max-height: 700px;
+    width: 100%;
+    height: 100%;
+    /* --- DIUBAH --- Ukuran "aman" untuk sebagian besar layar laptop --- */
+    max-width: 1000px; 
+    max-height: 580px; /* Ini kunci utamanya, cukup rendah untuk layar 768p */
     background-color: var(--secondary-color);
     border-radius: var(--border-radius);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -45,12 +48,12 @@ body {
 /* --- Sidebar --- */
 .sidebar {
     width: 300px;
+    flex-shrink: 0; 
     background-color: var(--highlight-color);
     padding: 20px;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    /* order: 0; /* Default order */
 }
 
 .sidebar h2 {
@@ -96,6 +99,12 @@ body {
 }
 .custom-folder-button i {
     margin-right: 8px;
+}
+
+.playlist-container {
+    flex-grow: 1; 
+    min-height: 0; 
+    overflow-y: auto;
 }
 
 .playlist-container h3 {
@@ -145,19 +154,21 @@ body {
 /* --- Main Content --- */
 .main-content {
     flex-grow: 1;
-    padding: 30px;
+    padding: 20px 30px; /* Sedikit mengurangi padding vertikal */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    /* --- DIUBAH --- Menggunakan center agar lebih aman */
+    justify-content: center;
     background: linear-gradient(to bottom, #2a2a2a, var(--secondary-color));
-    /* order: 0; /* Default order */
+    min-width: 0;
 }
 
 .album-art-section {
     position: relative;
-    width: 250px;
-    height: 250px;
+    /* --- DIUBAH --- Sedikit mengecilkan elemen agar pas di kontainer baru */
+    width: 220px;
+    height: 220px;
     margin-bottom: 15px;
 }
 
@@ -182,8 +193,8 @@ body {
     position: absolute;
     bottom: 10px;
     right: 10px;
-    width: 80px;
-    height: 80px;
+    width: 70px; /* Dikecilkan sedikit */
+    height: 70px;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
     cursor: grab;
@@ -204,16 +215,18 @@ body {
     text-align: center;
     margin-bottom: 15px;
     min-height: 50px;
+    width: 100%;
 }
 
 #current-song-title {
-    font-size: 1.4em;
+    font-size: 1.3em; /* Dikecilkan sedikit */
     font-weight: 500;
     margin-bottom: 5px;
     max-width: 400px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: inline-block;
 }
 
 #current-song-artist {
@@ -224,10 +237,10 @@ body {
 #visualizer {
     width: 100%;
     max-width: 400px;
-    height: 80px;
+    height: 60px; /* Dikecilkan sedikit */
     background-color: rgba(0,0,0,0.1);
     border-radius: 4px;
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* Mengurangi margin */
 }
 
 /* --- Controls --- */
@@ -273,21 +286,21 @@ body {
     justify-content: space-between;
     font-size: 0.8em;
     color: var(--text-muted-color);
-    margin-bottom: 15px;
+    margin-bottom: 10px; /* Mengurangi margin */
 }
 
 .buttons {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 15px;
+    margin-bottom: 10px; /* Mengurangi margin */
 }
 
 .buttons button {
     background: none;
     border: none;
     color: var(--text-color);
-    font-size: 1.5em;
+    font-size: 1.4em; /* Dikecilkan sedikit */
     margin: 0 15px;
     cursor: pointer;
     transition: color 0.2s ease, transform 0.1s ease;
@@ -299,7 +312,7 @@ body {
     transform: scale(0.9);
 }
 #play-pause-btn {
-    font-size: 2.2em;
+    font-size: 2em; /* Dikecilkan sedikit */
     color: var(--primary-color);
 }
 #play-pause-btn:hover {
@@ -348,25 +361,32 @@ body {
 
 /* --- Responsive adjustments --- */
 @media (max-width: 900px) {
+    body {
+        padding: 0; 
+    }
     .player-container {
-        flex-direction: column; /* Mengubah tumpukan menjadi vertikal */
-        height: auto;
+        flex-direction: column; 
+        width: 100%; 
+        height: 100vh; 
         max-height: none;
+        max-width: none;
+        border-radius: 0; 
     }
 
     .main-content {
-        order: 1; /* Main content muncul pertama (di atas) */
+        order: 1; 
         padding: 20px;
         justify-content: flex-start;
-        /* Tidak perlu border atas jika sidebar di bawahnya punya border atas */
+        flex-grow: 1; 
     }
 
     .sidebar {
-        order: 2; /* Sidebar muncul kedua (di bawah main-content) */
+        order: 2; 
         width: 100%;
-        height: 280px; /* Sesuaikan tinggi sesuai kebutuhan */
-        border-bottom: none; /* Hapus border bawah jika ada */
-        border-top: 2px solid var(--secondary-color); /* Tambahkan border atas sebagai pemisah */
+        height: auto; 
+        flex-grow: 1; 
+        max-height: 40vh; 
+        border-top: 2px solid var(--secondary-color); 
     }
     
     .album-art-section {
@@ -380,13 +400,14 @@ body {
 }
 
 @media (max-width: 600px) {
-    /* Pengaturan order dari max-width: 900px sudah berlaku di sini */
     .sidebar {
-        height: 250px; /* Sesuaikan lagi jika perlu untuk layar lebih kecil */
+        max-height: 45vh; 
     }
     .album-art-section {
-        width: 180px;
-        height: 180px;
+        width: 150px;
+        height: 150px;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
     .buttons button {
         margin: 0 10px;
@@ -399,11 +420,14 @@ body {
         font-size: 1.2em;
     }
     #current-song-title {
-        max-width: 280px;
+        max-width: 250px;
+    }
+    .main-content {
+        padding: 15px;
     }
 }
 
-/* Scrollbar styling (opsional, untuk konsistensi) */
+/* Scrollbar styling */
 ::-webkit-scrollbar {
     width: 8px;
 }
